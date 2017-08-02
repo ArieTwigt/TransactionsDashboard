@@ -2,10 +2,11 @@ library(shiny)
 
 
 shinyUI(fluidPage(
-  titlePanel("Epic App"),
+  titlePanel("Shiny Transactions Dashboard"),
   
+# Row 1: File input  
   fluidRow(
-    column(4,
+    column(4, align="center",
            fileInput("TextBestand", label = h4("Upload de transactiedata"),
                      accept=c('text/csv',
                               'text/comma-seperated-values,text/plain',
@@ -14,7 +15,7 @@ shinyUI(fluidPage(
   
   ),
   fluidRow(
-    column(1,
+    column(3,
            selectInput("Klantgroep",label=h6("Selecteer een klantgroep"),choices=c("Kleine Klanten"="KlKl",
                                                                                    "Midden Klanten"="MiKl",
                                                                                    "Grote Klanten"="GrKl",
@@ -29,7 +30,7 @@ shinyUI(fluidPage(
            br()),
   
     
-    column(2,
+    column(3,
            h3("Statistieken"),
            tableOutput("summaryTKB"),
            h6("Gemiddeldes"),
@@ -49,16 +50,9 @@ shinyUI(fluidPage(
            textOutput("valueG")
            ),
     
-    column(5,
-           h3("Klantgroep informatie"),
-           br(),
-           dataTableOutput("KleineKlanten"),
-           dataTableOutput("MiddenKlanten"),
-           dataTableOutput("GroteKlanten"),
-           dataTableOutput("AlleKlanten")
-           ),
+
     
-    column(2,
+    column(3,
            h3("Totale waarde"),
            br(),
            textOutput("totalValue"),
@@ -68,17 +62,23 @@ shinyUI(fluidPage(
            h5("Gemiddelde klantwaarde"),
            br(),
            textOutput("meanKlant")
-           
-           
-           
-           )
-    ),
-  fluidRow(
-    column(5,
+           ),
+    column(3,
            h6("Omzet per dag"),
            plotOutput("plotOmzet")
-           )
     )
+    ),
+  
+  fluidRow(
+    column(12,
+           h3("Klantgroep informatie"),
+           br(),
+           dataTableOutput("KleineKlanten"),
+           dataTableOutput("MiddenKlanten"),
+           dataTableOutput("GroteKlanten"),
+           dataTableOutput("AlleKlanten")
+    )
+  )
   
   
   ))
