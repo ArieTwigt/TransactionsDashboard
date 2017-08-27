@@ -7,7 +7,7 @@ shinyUI(fluidPage(
 # Row 1: File input  
   fluidRow(
     column(4, align="center",
-           fileInput("TextBestand", label = h4("Upload de transactiedata"),
+           fileInput("Text File", label = h4("Upload the transaction data"),
                      accept=c('text/csv',
                               'text/comma-seperated-values,text/plain',
                               '.csv')))
@@ -16,62 +16,62 @@ shinyUI(fluidPage(
   ),
   fluidRow(
     column(3,
-           selectInput("Klantgroep",label=h6("Selecteer een klantgroep"),choices=c("Kleine Klanten"="KlKl",
-                                                                                   "Midden Klanten"="MiKl",
-                                                                                   "Grote Klanten"="GrKl",
-                                                                                   "Alle klanten"="AKl"
+           selectInput("Customer Group",label=h6("Select a customer group"),choices=c("Small customers"="KlKl",
+                                                                                   "Medium customers"="MiKl",
+                                                                                   "Large customers"="GrKl",
+                                                                                   "All customers"="AKl"
            ),selected="AKl"),
-           h5("Definieer klantgroepen"),
-           numericInput("MaxKlKl",label=h6("Max. waarde Kleine klanten"),value=""),
-           numericInput("MinMiKl",label=h6("Min. waarde Midden klanten"),value=""),
-           numericInput("MaxMiKl",label=h6("Max. waarde Midden klanten"),value=""),
-           numericInput("MinGrKl",label=h6("Min. waarde Grote klanten"),value=""),
+           h5("Define customer groups"),
+           numericInput("MaxKlKl",label=h6("Max. value small customers"),value=""),
+           numericInput("MinMiKl",label=h6("Min. value medium customers"),value=""),
+           numericInput("MaxMiKl",label=h6("Max. value medium"),value=""),
+           numericInput("MinGrKl",label=h6("Min. value large customers"),value=""),
            
            br()),
   
     
     column(3,
-           h3("Statistieken"),
+           h3("Statistics"),
            tableOutput("summaryTKB"),
-           h6("Gemiddeldes"),
+           h6("Means"),
            tableOutput("Means"),
            br(),
-           h6("Aantal kleine klanten"),
+           h6("Amount of small customers"),
            textOutput("lengthK"),
-           h6("Waarde kleine klanten"),
+           h6("Value of small customers"),
            textOutput("valueK"),
-           h6("Aantal midden klanten"),
+           h6("Amount of medium customers"),
            textOutput("lengthM"),
-           h6("Waarde midden klanten"),
+           h6("Value of medium customers"),
            textOutput("valueM"),
-           h6("Aantal grote klanten"),
+           h6("Amount of large customers"),
            textOutput("lengthG"),
-           h6("Waarde grote klanten"),
+           h6("Value of large customers"),
            textOutput("valueG")
            ),
     
 
     
     column(3,
-           h3("Totale waarde"),
+           h3("Totale value"),
            br(),
            textOutput("totalValue"),
-           h5("Aantal klanten"),
+           h5("Number of customers"),
            br(),
            textOutput("All"),
-           h5("Gemiddelde klantwaarde"),
+           h5("Mean customer value"),
            br(),
            textOutput("meanKlant")
            ),
     column(3,
-           h6("Omzet per dag"),
+           h6("Daily turnover"),
            plotOutput("plotOmzet")
     )
     ),
   
   fluidRow(
     column(12,
-           h3("Klantgroep informatie"),
+           h3("Customer group information"),
            br(),
            dataTableOutput("KleineKlanten"),
            dataTableOutput("MiddenKlanten"),
