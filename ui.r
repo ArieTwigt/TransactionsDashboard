@@ -7,7 +7,7 @@ shinyUI(fluidPage(
 # Row 1: File input  
   fluidRow(
     column(4, align="center",
-           fileInput("Text File", label = h4("Upload the transaction data"),
+           fileInput("textFile", label = h4("Upload the transaction data"),
                      accept=c('text/csv',
                               'text/comma-seperated-values,text/plain',
                               '.csv')))

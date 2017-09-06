@@ -4,11 +4,11 @@ library(shiny)
 shinyServer(function(input,output,session){
 
 Data<-reactive({
-  TextBestand<-input$TextBestand
-  if(is.null(TextBestand)) return (NULL)
-  data<-read.table(TextBestand$datapath,header=FALSE)
+  textFile <- input$textFile
+  if(is.null(textFile)) return (NULL)
+  data<-read.table(textFile$datapath,header=FALSE)
   data.df<-as.data.frame(data)
-  names(data.df)<-c("Klant","Datum","Aantal","Bedrag")
+  names(data.df)<-c("Customer","Date","Quantity","Amount")
   data.df
 })
 
@@ -18,64 +18,64 @@ Data<-reactive({
 
 output$Means<-renderTable({
   if(is.null(Data())) return(NULL)
-  MB<-mean(Data()$Bedrag)
-  MA<-mean(Data()$Aantal)
-  MB.df<-as.data.frame(MB)
+  MA<-mean(Data()$Amount)
+  MQ<-mean(Data()$Quantity)
   MA.df<-as.data.frame(MA)
-  Means<-cbind(MB.df,MA.df)
+  MQ.df<-as.data.frame(MQ)
+  Means<-cbind(MA.df,MQ.df)
   Means.df<-as.data.frame(Means)
-  names(Means.df)<-c("Gemiddeld Bedrag","Gemiddeld Aantal")
+  names(Means.df)<-c("Average Amount","Average Quantity")
   Means.df 
 })
 
-TKB<-reactive({
-  TotaalKlantBedrag<-aggregate(Data()$Bedrag~Data()$Klant,Data(),sum)
-  TKB.df<-as.data.frame(TotaalKlantBedrag)
-  names(TKB.df)<-c("Klant","Waarde")
-  TKB<-TKB.df
-  TKB
+TCA<-reactive({
+  TotalCustomerAmount<-aggregate(Data()$Amount~Data()$Customer,Data(),sum)
+  TCA.df<-as.data.frame(TotalCustomerAmount)
+  names(TCA.df)<-c("Customer","Value")
+  TCA<-TCA.df
+  TCA
 })
 
-output$summaryTKB<-renderTable({
+output$summaryTCA<-renderTable({
   if(is.null(Data())) return(NULL)
-  summary.df<-as.data.frame(summary(TKB()))
-  names(summary.df)<-c("","Var","Waarde in euro's")
+  summary.df<-as.data.frame(summary(TCA()))
+  names(summary.df)<-c("","Var","Value")
   summary.df[7:12,]
 })
 
-KleineKlanten<-reactive({
-  KleineKlanten<-TKB()[which(TKB()$Waarde<=input$MaxKlKl),]
-  KleineKlanten.df<-as.data.frame(KleineKlanten)
-  names(KleineKlanten.df)<-c("K_Klant","Waarde")
-  KleineKlanten.df
+SmallCustomers<-reactive({
+  SmallCustomers<-TCA()[which(TCB()$Waarde<=input$MaxSC),]
+  SmallCustomers.df<-as.data.frame(SmallCustomers)
+  names(SmallCustomers.df)<-c("S_Customer","Value")
+  SmallCustomers.df
 })
 
-output$lengthK<-renderText({
+output$lengthS<-renderText({
   if(is.null(Data())) return()
-  length(KleineKlanten()$K_Klant) 
+  length(SmallCustomers()$S_Customer) 
 })
 
-output$KleineKlanten<-renderDataTable({
+output$SmallCustomers<-renderDataTable({
   if(is.null(Data())) return(NULL)
-  if(input$Klantgroep=="KlKl")
-    return(KleineKlanten())  
+  if(input$CustomerGroup=="SC")
+    return(SmallCustomers())  
 })
 
-output$valueK<-renderText({
+output$valueS<-renderText({
   if(is.null(Data())) return()
-  sum(KleineKlanten()$Waarde) 
+  sum(SmallCustomers()$Value) 
 })
 
-MiddenKlanten<-reactive({
-    MiddenKlanten<-TKB()[which(TKB()$Waarde>input$MinMiKl & TKB()$Waarde<=input$MaxMiKl),]
-    MiddenKlanten.df<-as.data.frame(MiddenKlanten)
-    names(MiddenKlanten.df)<-c("M_Klant","Waarde")
-    MiddenKlanten.df
+MediumCustomers<-reactive({
+  MediumCustomers<-TCA()[which(TCA()$Value>input$MinSC & TCA()$Value<=input$MaxSC),]
+    MediumCustomers.df<-as.data.frame(MediumCustomers)
+    names(MediumCustomers.df)<-c("M_Customer","Value")
+    MediumCustomers.df
 })
 
 output$lengthM<-renderText({
   if(is.null(Data())) return()
-  length(MiddenKlanten()$M_Klant) 
+  length(MediumCustomers()$M_Customer) 
 })
 
 output$MiddenKlanten<-renderDataTable({
